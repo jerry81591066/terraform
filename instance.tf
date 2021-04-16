@@ -8,7 +8,17 @@ resource "aws_instance" "web-srv" {
     aws_security_group.https.id,
   ]
 
+  user_data = <<-EOF
+  #!/bin/bash
+  [[ ! -f index.html ]] && echo 'Hello world' >> index.html
+  sudo python3 -m http.server 80
+  EOF
+
   tags = {
     Name = "web-srv"
   }
+}
+
+output "public_ip" {
+  value = aws_instance.web-srv.public_ip
 }
