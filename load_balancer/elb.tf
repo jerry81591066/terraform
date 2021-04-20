@@ -1,7 +1,7 @@
 resource "aws_elb" "web-cluster" {
   name               = "web-cluster-elb"
   availability_zones = data.aws_availability_zones.all.names
-  security_groups    = [aws_security_group.elb.id]
+  security_groups    = [data.terraform_remote_state.infra.outputs.sg_elb.id]
 
   listener {
     lb_port           = 80
